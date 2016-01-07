@@ -41,7 +41,7 @@ public class HomeViewActivity extends BaseActivity implements HomeViewInterface 
 
   @Override public void setData(List<Post> listPost) {
     for (Post data : listPost) {
-      Timber.d("setData(): " + data.title);
+      Timber.d("setData(): " + data.title + " , " + data.date.toString());
     }
   }
 }

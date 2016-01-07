@@ -3,6 +3,11 @@ ext {
   supportLibrary = '23.1.1'
   playService = '8.3.0'
   retrofit = '2.0.0-beta2'
+  realm = '0.87.1'
+  jodatime = '2.9.1'
+  timber = '4.1.0'
+  rxVersion = '1.1.0'
+  dagger = '2.0.2'
 
   //Support Libraries dependencies
   supportDependencies = [design      : "com.android.support:design:${supportLibrary}",
@@ -16,4 +21,15 @@ ext {
                           converter    : "com.squareup.retrofit:converter-gson:${retrofit}",
                           rxjavaAdapter: "com.squareup.retrofit:adapter-rxjava:${retrofit}",
                           logging      : "com.squareup.okhttp:logging-interceptor:2.6.0"]
+
+  daggerDependencies = [baseDagger      : "com.google.dagger:dagger:${dagger}",
+                        compilerDagger  : "com.google.dagger:dagger-compiler:${dagger}",
+                        annotationDagger: "org.glassfish:javax.annotation:10.0-b28"]
+
+  rxDependencies = [rxAndroid: "io.reactivex:rxandroid:${rxVersion}",
+                    rxJava   : "io.reactivex:rxjava:${rxVersion}"]
+
+  utilityDependency = [database: "io.realm:realm-android:${realm}",
+                       time    : "net.danlew:android.joda:${jodatime}",
+                       logging : "com.jakewharton.timber:timber:${timber}"]
 }
