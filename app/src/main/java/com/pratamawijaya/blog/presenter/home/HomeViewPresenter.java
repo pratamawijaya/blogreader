@@ -4,7 +4,10 @@ import com.pratamawijaya.blog.base.BasePresenter;
 import com.pratamawijaya.blog.data.DataManager;
 import com.pratamawijaya.blog.ui.home.HomeViewInterface;
 import javax.inject.Inject;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+import timber.log.Timber;
 
 /**
  * Created by : pratama - set.mnemonix@gmail.com
@@ -29,7 +32,17 @@ public class HomeViewPresenter extends BasePresenter<HomeViewInterface> {
     if (compositeSubscription != null) compositeSubscription.unsubscribe();
   }
 
-  public void getArticle(){
-
+  public void getArticle() {
+    checkViewAttached();
+    compositeSubscription.add(dataManager.getPosts()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(posts -> {
+          if (posts != null && posts.size() > 0) {
+            getMvpView().setData(posts);
+          }
+        }, throwable -> {
+          Timber.e("getArticle(): " + throwable.getLocalizedMessage());
+        }));
   }
 }

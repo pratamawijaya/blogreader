@@ -39,6 +39,6 @@ import rx.Observable;
    * @return List Post
    */
   public Observable<List<Post>> getPosts() {
-    return databaseHelper.getPosts();
+    return pratamaService.getRecentPost().flatMap(response -> Observable.just(response.posts));
   }
 }

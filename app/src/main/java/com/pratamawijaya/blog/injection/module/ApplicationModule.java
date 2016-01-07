@@ -8,12 +8,16 @@ import com.pratamawijaya.blog.data.Migration;
 import com.pratamawijaya.blog.data.local.DatabaseHelper;
 import com.pratamawijaya.blog.data.network.PratamaService;
 import com.pratamawijaya.blog.injection.ApplicationContext;
+import com.pratamawijaya.blog.utils.GsonDateDeSerializer;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import java.lang.reflect.Modifier;
 import javax.inject.Singleton;
+import org.joda.time.DateTime;
 
 /**
  * Created by : pratama - set.mnemonix@gmail.com
@@ -38,12 +42,17 @@ import javax.inject.Singleton;
 
   @Provides @Singleton static OkHttpClient providesOkHttpClient() {
     OkHttpClient okHttpClient = new OkHttpClient();
+    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+    interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    okHttpClient.interceptors().add(interceptor);
     return okHttpClient;
   }
 
   @Provides @Singleton static Gson providesGson() {
-    Gson gson = new GsonBuilder().create();
-    return gson;
+    GsonBuilder gsonBuilder = new GsonBuilder();
+    gsonBuilder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
+    gsonBuilder.registerTypeAdapter(DateTime.class, new GsonDateDeSerializer());
+    return gsonBuilder.create();
   }
 
   @Provides @Singleton static PratamaService provideService(OkHttpClient okHttpClient, Gson gson) {

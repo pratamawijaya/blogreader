@@ -14,5 +14,6 @@ ext {
 
   retrofitDependencies = [retrofitBase : "com.squareup.retrofit:retrofit:${retrofit}",
                           converter    : "com.squareup.retrofit:converter-gson:${retrofit}",
-                          rxjavaAdapter: "com.squareup.retrofit:adapter-rxjava:${retrofit}"]
+                          rxjavaAdapter: "com.squareup.retrofit:adapter-rxjava:${retrofit}",
+                          logging      : "com.squareup.okhttp:logging-interceptor:2.6.0"]
 }

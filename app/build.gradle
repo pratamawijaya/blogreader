@@ -65,6 +65,7 @@ dependencies {
   compile retrofitDependencies.retrofitBase
   compile retrofitDependencies.converter
   compile retrofitDependencies.rxjavaAdapter
+  compile retrofitDependencies.logging
 
   compile 'net.danlew:android.joda:2.9.1'
   compile 'com.jakewharton.timber:timber:4.1.0'
