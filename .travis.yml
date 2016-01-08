@@ -10,5 +10,5 @@ android:
     - android-23
     - extra-android-m2repository
 script:
-    - ./gradlew build assembleDevelopmentDebug 
+    - ./gradlew clean assembleDevelopmentDebug 
 
