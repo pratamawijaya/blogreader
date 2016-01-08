@@ -27,9 +27,9 @@ android {
     release {
       try {
         storeFile file("../pratamakey.jks")
-        storePassword KEYSTORE_PASSWORD
-        keyAlias "pratmaawijaya"
-        keyPassword KEY_PASSWORD
+        storePassword System.getenv("KEY_PASSWORD")
+        keyAlias "pratamawijaya"
+        keyPassword System.getenv("KEY_PASSWORD")
       } catch (ex) {
         throw new InvalidUserDataException(
             "You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
