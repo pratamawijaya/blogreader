@@ -1,6 +1,8 @@
 *.iml
 *.idea
 *.properties
+*.keystore
+*.jks
 .gradle
 /local.properties
 /.idea/workspace.xml
