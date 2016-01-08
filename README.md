@@ -1,4 +1,7 @@
 # Android Apps for my Blog
+
+[![Build Status](https://travis-ci.org/pratamawijaya/blogreader.svg?branch=develop)](https://travis-ci.org/pratamawijaya/blogreader)
+
 Tes
 ~
 
