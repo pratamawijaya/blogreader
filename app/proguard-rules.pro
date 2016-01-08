@@ -16,6 +16,13 @@
 #   public *;
 #}
 
+
+# Obfuscation parameters:
+#-dontobfuscate
+-useuniqueclassmembernames
+-keepattributes SourceFile,LineNumberTable
+-allowaccessmodification
+
 -keep class io.realm.annotations.RealmModule
 -keep @io.realm.annotations.RealmModule class *
 -keep class io.realm.internal.Keep
@@ -23,3 +30,15 @@
 -dontwarn javax.**
 -dontwarn io.realm.**
 
+# Keep GSON stuff
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.** { *; }
+
+# Keep Retrofit
+-keep class retrofit.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit.** *;
+}
+-keepclassmembers class * {
+    @retrofit.** *;
+}
