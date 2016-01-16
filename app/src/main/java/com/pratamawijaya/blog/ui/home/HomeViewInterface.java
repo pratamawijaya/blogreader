@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface HomeViewInterface extends MvpView {
   void showLoading();
+
   void hideLoading();
+
   void setData(List<Post> listPost);
 }

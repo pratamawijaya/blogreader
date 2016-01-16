@@ -9,8 +9,7 @@ import io.realm.annotations.PrimaryKey;
  * Project : PratamaBlogDagger2
  */
 public class AuthorTable extends RealmObject {
-  @PrimaryKey
-  private int id;
+  @PrimaryKey private int id;
   private String slug;
   private String name;
   private String first_name;

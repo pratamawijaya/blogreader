@@ -9,7 +9,5 @@ import javax.inject.Scope;
  * Date : 12/31/15
  * Project : PratamaBlogDagger2
  */
-@Scope
-@Retention(RetentionPolicy.RUNTIME)
-public @interface PerActivity {
+@Scope @Retention(RetentionPolicy.RUNTIME) public @interface PerActivity {
 }

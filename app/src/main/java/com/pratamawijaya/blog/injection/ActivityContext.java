@@ -9,6 +9,5 @@ import javax.inject.Qualifier;
  * Date : 12/31/15
  * Project : PratamaBlogDagger2
  */
-@Qualifier @Retention(RetentionPolicy.RUNTIME)
-public @interface ActivityContext {
+@Qualifier @Retention(RetentionPolicy.RUNTIME) public @interface ActivityContext {
 }
