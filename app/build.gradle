@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'
 
 android {
   compileSdkVersion 23
@@ -74,8 +75,6 @@ dependencies {
   provided daggerDependencies.compilerDagger
   provided daggerDependencies.annotationDagger
 
-  // database
-  compile utilityDependency.database
   // time
   compile utilityDependency.time
   // logging
