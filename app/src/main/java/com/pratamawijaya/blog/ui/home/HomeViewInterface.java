@@ -15,4 +15,6 @@ public interface HomeViewInterface extends MvpView {
   void hideLoading();
 
   void setData(List<Post> listPost);
+
+  void showError();
 }

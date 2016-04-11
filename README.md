@@ -2,8 +2,29 @@
 
 [![Build Status](https://travis-ci.org/pratamawijaya/blogreader.svg?branch=develop)](https://travis-ci.org/pratamawijaya/blogreader)
 
-Tes
-~
+## What is this
+Its apps for my blog PratamaWijaya.com, its implement all libary usually i have done with it
+
+**Library**
+
+- Retrofit 2.0
+- Dagger 2
+- Butterknife
+- RxCache
+- RxJava
+
+
+**Architecture**
+
+- MvP
+
+
+## Todo
+
+- [ ] implement **Test** (you must learn Test TAMAAA)
+- [ ] implement Chrome Custom Tab
+- [ ] implement firebase
+- [ ] implement auth for fave using Google Sign in
 
 
 ### License

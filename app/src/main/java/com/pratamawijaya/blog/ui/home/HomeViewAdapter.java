@@ -26,6 +26,10 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.HomeHo
     listPost = new ArrayList<>();
   }
 
+  public void clearPost() {
+    listPost.clear();
+  }
+
   public void addPost(List<Post> posts) {
     listPost.addAll(posts);
     notifyDataSetChanged();

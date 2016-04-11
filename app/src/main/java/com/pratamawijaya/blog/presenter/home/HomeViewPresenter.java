@@ -47,6 +47,7 @@ public class HomeViewPresenter extends BasePresenter<HomeViewInterface> {
           }
         }, throwable -> {
           getMvpView().hideLoading();
+          getMvpView().showError();
           Timber.e("getArticle(): " + throwable.getLocalizedMessage());
         }));
   }

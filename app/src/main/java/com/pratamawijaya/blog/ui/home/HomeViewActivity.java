@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.pratamawijaya.blog.R;
@@ -22,6 +23,7 @@ public class HomeViewActivity extends BaseActivity
   @Bind(R.id.content_view) SwipeRefreshLayout contentView;
   @Bind(R.id.recycler_view) RecyclerView recyclerView;
   @Bind(R.id.loading_view) ProgressBar loadingView;
+  @Bind(R.id.error_view) TextView errorView;
 
   @Inject HomeViewPresenter presenter;
   private HomeViewAdapter adapter;
@@ -78,10 +80,19 @@ public class HomeViewActivity extends BaseActivity
   }
 
   @Override public void setData(List<Post> listPost) {
+    contentView.setRefreshing(false);
     adapter.addPost(listPost);
   }
 
-  @Override public void onRefresh() {
+  @Override public void showError() {
+    contentView.setVisibility(View.GONE);
+    errorView.setVisibility(View.VISIBLE);
+  }
 
+  @Override public void onRefresh() {
+    contentView.setRefreshing(true);
+    adapter.clearPost();
+    presenter.getArticle(1, true);
+    endlessRecyclerOnScrollListener.reset(0, true);
   }
 }
