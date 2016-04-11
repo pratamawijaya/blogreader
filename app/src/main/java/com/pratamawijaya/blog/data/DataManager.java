@@ -1,5 +1,6 @@
 package com.pratamawijaya.blog.data;
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
 import com.pratamawijaya.blog.data.local.DatabaseHelper;
 import com.pratamawijaya.blog.data.network.PratamaService;
 import com.pratamawijaya.blog.model.pojo.Post;
@@ -32,7 +33,7 @@ import rx.Observable;
    *
    * @return List Post
    */
-  public Observable<List<Post>> getPosts(final int page, final boolean isUpdate) {
+  @RxLogObservable public Observable<List<Post>> getPosts(final int page, final boolean isUpdate) {
     return cacheProviders.getListPost(pratamaService.getRecentPost(page)
             .flatMap(postResponse -> Observable.just(postResponse.posts)), new DynamicKey(page),
         new EvictDynamicKey(isUpdate));

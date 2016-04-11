@@ -27,7 +27,8 @@ ext {
                         annotationDagger: "org.glassfish:javax.annotation:10.0-b28"]
 
   rxDependencies = [rxAndroid: "io.reactivex:rxandroid:${rxVersion}",
-                    rxJava   : "io.reactivex:rxjava:${rxVersion}"]
+                    rxJava   : "io.reactivex:rxjava:${rxVersion}",
+                    rxLint   : "nl.littlerobots.rxlint:rxlint:1.0"]
 
   utilityDependency = [database: "io.realm:realm-android:${realm}",
                        time    : "net.danlew:android.joda:${jodatime}",
