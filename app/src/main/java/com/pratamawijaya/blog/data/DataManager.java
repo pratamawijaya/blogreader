@@ -3,6 +3,8 @@ package com.pratamawijaya.blog.data;
 import com.pratamawijaya.blog.data.local.DatabaseHelper;
 import com.pratamawijaya.blog.data.network.PratamaService;
 import com.pratamawijaya.blog.model.pojo.Post;
+import io.rx_cache.DynamicKey;
+import io.rx_cache.EvictDynamicKey;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -16,21 +18,13 @@ import rx.Observable;
 @Singleton public class DataManager {
   private final PratamaService pratamaService;
   private final DatabaseHelper databaseHelper;
+  private final CacheProviders cacheProviders;
 
-  @Inject public DataManager(PratamaService pratamaService, DatabaseHelper databaseHelper) {
-    this.pratamaService = pratamaService;
+  @Inject public DataManager(CacheProviders cacheProviders, DatabaseHelper databaseHelper,
+      PratamaService pratamaService) {
+    this.cacheProviders = cacheProviders;
     this.databaseHelper = databaseHelper;
-  }
-
-  /**
-   * sync post to local
-   *
-   * @return Observable Post
-   */
-  public Observable<Post> syncPost() {
-    return pratamaService.getRecentPost()
-        .flatMap(recentPost -> Observable.just(recentPost.posts))
-        .concatMap(posts -> databaseHelper.insertPosts(posts));
+    this.pratamaService = pratamaService;
   }
 
   /**
@@ -38,7 +32,9 @@ import rx.Observable;
    *
    * @return List Post
    */
-  public Observable<List<Post>> getPosts() {
-    return pratamaService.getRecentPost().flatMap(response -> Observable.just(response.posts));
+  public Observable<List<Post>> getPosts(final int page, final boolean isUpdate) {
+    return cacheProviders.getListPost(pratamaService.getRecentPost(page)
+            .flatMap(postResponse -> Observable.just(postResponse.posts)), new DynamicKey(page),
+        new EvictDynamicKey(isUpdate));
   }
 }

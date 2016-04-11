@@ -32,16 +32,21 @@ public class HomeViewPresenter extends BasePresenter<HomeViewInterface> {
     if (compositeSubscription != null) compositeSubscription.unsubscribe();
   }
 
-  public void getArticle() {
+  public void getArticle(final int page, final boolean isUpdate) {
     checkViewAttached();
-    compositeSubscription.add(dataManager.getPosts()
+    if (page == 1) {
+      getMvpView().showLoading();
+    }
+    compositeSubscription.add(dataManager.getPosts(page, isUpdate)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(posts -> {
+          getMvpView().hideLoading();
           if (posts != null && posts.size() > 0) {
             getMvpView().setData(posts);
           }
         }, throwable -> {
+          getMvpView().hideLoading();
           Timber.e("getArticle(): " + throwable.getLocalizedMessage());
         }));
   }

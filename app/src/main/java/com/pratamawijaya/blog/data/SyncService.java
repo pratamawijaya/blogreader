@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import com.pratamawijaya.blog.App;
+import com.pratamawijaya.blog.base.BaseApplication;
 import com.pratamawijaya.blog.utils.AndroidComponentUtil;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -34,7 +34,7 @@ import rx.Subscription;
 
   @Override public void onCreate() {
     super.onCreate();
-    App.get(this).getApplicationComponent().inject(this);
+    BaseApplication.get(this).getApplicationComponent().inject(this);
   }
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {

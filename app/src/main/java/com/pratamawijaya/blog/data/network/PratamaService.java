@@ -3,12 +3,13 @@ package com.pratamawijaya.blog.data.network;
 import com.google.gson.Gson;
 import com.pratamawijaya.blog.BuildConfig;
 import com.pratamawijaya.blog.model.response.PostResponse;
-import com.squareup.okhttp.OkHttpClient;
 import javax.inject.Inject;
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
-import retrofit.http.GET;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -17,7 +18,7 @@ import rx.Observable;
  * Project : PratamaBlogDagger2
  */
 public interface PratamaService {
-  @GET("get_recent_posts/") Observable<PostResponse> getRecentPost();
+  @GET("get_recent_posts/") Observable<PostResponse> getRecentPost(@Query("page") int page);
 
   class Creator {
     @Inject public static PratamaService newPratamaService(OkHttpClient okHttpClient, Gson gson) {

@@ -2,6 +2,7 @@ package com.pratamawijaya.blog.injection.component;
 
 import android.app.Application;
 import android.content.Context;
+import com.pratamawijaya.blog.data.CacheProviders;
 import com.pratamawijaya.blog.data.DataManager;
 import com.pratamawijaya.blog.data.SyncService;
 import com.pratamawijaya.blog.data.network.PratamaService;
@@ -29,4 +30,6 @@ import javax.inject.Singleton;
   DataManager dataManager();
 
   Realm realm();
+
+  CacheProviders cacheProvider();
 }

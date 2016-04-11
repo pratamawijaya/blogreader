@@ -1,7 +1,8 @@
-package com.pratamawijaya.blog;
+package com.pratamawijaya.blog.base;
 
 import android.app.Application;
 import android.content.Context;
+import com.pratamawijaya.blog.BuildConfig;
 import com.pratamawijaya.blog.injection.component.ApplicationComponent;
 import com.pratamawijaya.blog.injection.component.DaggerApplicationComponent;
 import com.pratamawijaya.blog.injection.module.ApplicationModule;
@@ -13,7 +14,7 @@ import timber.log.Timber;
  * Date : 11/28/15
  * Project : PratamaBlogDagger2
  */
-public class App extends Application {
+public class BaseApplication extends Application {
 
   ApplicationComponent applicationComponent;
 
@@ -38,7 +39,7 @@ public class App extends Application {
     return applicationComponent;
   }
 
-  public static App get(Context context) {
-    return (App) context.getApplicationContext();
+  public static BaseApplication get(Context context) {
+    return (BaseApplication) context.getApplicationContext();
   }
 }

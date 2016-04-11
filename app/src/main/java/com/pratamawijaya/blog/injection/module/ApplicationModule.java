@@ -4,19 +4,22 @@ import android.app.Application;
 import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pratamawijaya.blog.data.CacheProviders;
 import com.pratamawijaya.blog.data.Migration;
 import com.pratamawijaya.blog.data.local.DatabaseHelper;
 import com.pratamawijaya.blog.data.network.PratamaService;
 import com.pratamawijaya.blog.injection.ApplicationContext;
 import com.pratamawijaya.blog.utils.GsonDateDeSerializer;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.rx_cache.internal.RxCache;
+import java.io.File;
 import java.lang.reflect.Modifier;
 import javax.inject.Singleton;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import org.joda.time.DateTime;
 
 /**
@@ -41,10 +44,9 @@ import org.joda.time.DateTime;
   }
 
   @Provides @Singleton static OkHttpClient providesOkHttpClient() {
-    OkHttpClient okHttpClient = new OkHttpClient();
     HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-    okHttpClient.interceptors().add(interceptor);
+    OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
     return okHttpClient;
   }
 
@@ -69,7 +71,13 @@ import org.joda.time.DateTime;
             .schemaVersion(DATABASE_VERSION)
             .migration(new Migration())
             .build();
-
     return Realm.getInstance(configuration);
+  }
+
+  @Provides CacheProviders provideCacheProvider(@ApplicationContext Context context) {
+    File cacheDir = context.getFilesDir();
+    return new RxCache.Builder().useExpiredDataIfLoaderNotAvailable(true)
+        .persistence(cacheDir)
+        .using(CacheProviders.class);
   }
 }
