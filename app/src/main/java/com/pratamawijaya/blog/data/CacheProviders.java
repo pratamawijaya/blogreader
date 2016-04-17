@@ -14,4 +14,7 @@ import rx.Observable;
 public interface CacheProviders {
   @LifeCache(duration = 5, timeUnit = TimeUnit.DAYS) Observable<List<Post>> getListPost(
       Observable<List<Post>> data, DynamicKey key, EvictDynamicKey evictDynamicKey);
+
+  @LifeCache(duration = 5, timeUnit = TimeUnit.DAYS) Observable<Post> getPost(Observable<Post> data,
+      DynamicKey key, EvictDynamicKey evictDynamicKey);
 }

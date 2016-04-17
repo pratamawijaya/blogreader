@@ -4,6 +4,7 @@ import android.content.Context;
 import com.pratamawijaya.blog.injection.ActivityContext;
 import com.pratamawijaya.blog.injection.PerActivity;
 import com.pratamawijaya.blog.injection.module.ActivityModule;
+import com.pratamawijaya.blog.ui.detail.DetailArticleActivity;
 import com.pratamawijaya.blog.ui.home.HomeViewActivity;
 import dagger.Component;
 
@@ -15,6 +16,8 @@ import dagger.Component;
 @PerActivity @Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
 public interface ActivityComponent {
   void inject(HomeViewActivity activity);
+
+  void inject(DetailArticleActivity activity);
 
   @ActivityContext Context context();
 }

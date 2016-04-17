@@ -1,5 +1,6 @@
 package com.pratamawijaya.blog.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,12 +14,14 @@ import com.pratamawijaya.blog.R;
 import com.pratamawijaya.blog.base.BaseActivity;
 import com.pratamawijaya.blog.model.pojo.Post;
 import com.pratamawijaya.blog.presenter.home.HomeViewPresenter;
+import com.pratamawijaya.blog.ui.detail.DetailArticleActivity;
 import com.pratamawijaya.blog.utils.EndlessRecyclerOnScrollListener;
 import java.util.List;
 import javax.inject.Inject;
 
 public class HomeViewActivity extends BaseActivity
-    implements HomeViewInterface, SwipeRefreshLayout.OnRefreshListener {
+    implements HomeViewInterface, SwipeRefreshLayout.OnRefreshListener,
+    HomeViewAdapter.HomeViewListener {
 
   @Bind(R.id.content_view) SwipeRefreshLayout contentView;
   @Bind(R.id.recycler_view) RecyclerView recyclerView;
@@ -35,7 +38,7 @@ public class HomeViewActivity extends BaseActivity
     getActivityComponent().inject(this);
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
-    getSupportActionBar().setTitle("Home");
+    getSupportActionBar().setTitle("PratamaWijaya.Com");
 
     presenter.attachView(this);
     presenter.getArticle(1, false);
@@ -47,7 +50,7 @@ public class HomeViewActivity extends BaseActivity
   private void setupRecyclerView() {
     linearLayoutManager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(linearLayoutManager);
-    adapter = new HomeViewAdapter(this);
+    adapter = new HomeViewAdapter(this, this);
 
     endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager) {
       @Override public void onLoadMore(int current_page) {
@@ -94,5 +97,11 @@ public class HomeViewActivity extends BaseActivity
     adapter.clearPost();
     presenter.getArticle(1, true);
     endlessRecyclerOnScrollListener.reset(0, true);
+  }
+
+  @Override public void onItemClick(Post post) {
+    Bundle data = new Bundle();
+    data.putParcelable("data", post);
+    startActivity(new Intent(this, DetailArticleActivity.class).putExtras(data));
   }
 }

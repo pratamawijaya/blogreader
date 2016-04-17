@@ -3,6 +3,7 @@ package com.pratamawijaya.blog.data.network;
 import com.google.gson.Gson;
 import com.pratamawijaya.blog.BuildConfig;
 import com.pratamawijaya.blog.model.response.PostResponse;
+import com.pratamawijaya.blog.model.response.SinglePostResponse;
 import javax.inject.Inject;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -19,6 +20,8 @@ import rx.Observable;
  */
 public interface PratamaService {
   @GET("get_recent_posts/") Observable<PostResponse> getRecentPost(@Query("page") int page);
+
+  @GET("get_post/") Observable<SinglePostResponse> getPost(@Query("id") int id);
 
   class Creator {
     @Inject public static PratamaService newPratamaService(OkHttpClient okHttpClient, Gson gson) {

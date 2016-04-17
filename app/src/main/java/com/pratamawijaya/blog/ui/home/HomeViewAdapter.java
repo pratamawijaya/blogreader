@@ -1,6 +1,7 @@
 package com.pratamawijaya.blog.ui.home;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +22,16 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.HomeHo
   private Context context;
   private List<Post> listPost;
 
-  public HomeViewAdapter(Context context) {
+  public interface HomeViewListener {
+    void onItemClick(Post post);
+  }
+
+  private HomeViewListener listener;
+
+  public HomeViewAdapter(Context context, HomeViewListener listener) {
     this.context = context;
     listPost = new ArrayList<>();
+    this.listener = listener;
   }
 
   public void clearPost() {
@@ -43,7 +51,8 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.HomeHo
   @Override public void onBindViewHolder(HomeHolder holder, int position) {
     holder.postTitle.setText(listPost.get(position).title);
     holder.postExcrept.setText(listPost.get(position).excerpt);
-  }
+    holder.container.setOnClickListener(view -> listener.onItemClick(listPost.get(position)));
+    }
 
   @Override public int getItemCount() {
     return listPost.size();
@@ -53,6 +62,7 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.HomeHo
 
     @Bind(R.id.post_title) TextView postTitle;
     @Bind(R.id.post_content_excrept) TextView postExcrept;
+    @Bind(R.id.container)CardView container;
 
     public HomeHolder(View itemView) {
       super(itemView);

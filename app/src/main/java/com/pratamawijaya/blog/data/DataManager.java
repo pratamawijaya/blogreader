@@ -38,4 +38,10 @@ import rx.Observable;
             .flatMap(postResponse -> Observable.just(postResponse.posts)), new DynamicKey(page),
         new EvictDynamicKey(isUpdate));
   }
+
+  @RxLogObservable public Observable<Post> getPost(final int id, final boolean isUpdate) {
+    return cacheProviders.getPost(pratamaService.getPost(id)
+            .flatMap(singlePostResponse -> Observable.just(singlePostResponse.post)),
+        new DynamicKey(id), new EvictDynamicKey(isUpdate));
+  }
 }
