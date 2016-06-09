@@ -37,8 +37,9 @@ public class DetailPresenter extends BasePresenter<DetailArticleInterface> {
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(post -> {
+          Timber.d("getArticleDetail() : data source %s", post.getSource().name());
           if (post != null) {
-            getMvpView().setData(post);
+            getMvpView().setData(post.getData());
           }
         }, throwable -> {
           Timber.e("getArticleDetail() :  %s", throwable.getLocalizedMessage());

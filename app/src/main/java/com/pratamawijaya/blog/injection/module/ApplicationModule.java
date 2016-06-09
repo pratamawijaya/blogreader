@@ -75,8 +75,9 @@ import org.joda.time.DateTime;
   }
 
   @Provides CacheProviders provideCacheProvider(@ApplicationContext Context context) {
-    File cacheDir = context.getFilesDir();
-    return new RxCache.Builder().useExpiredDataIfLoaderNotAvailable(true)
+    File cacheDir = context.getCacheDir();
+    return new RxCache.Builder()
+        .useExpiredDataIfLoaderNotAvailable(true)
         .persistence(cacheDir)
         .using(CacheProviders.class);
   }

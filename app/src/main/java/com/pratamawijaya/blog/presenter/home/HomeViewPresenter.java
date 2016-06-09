@@ -42,9 +42,8 @@ public class HomeViewPresenter extends BasePresenter<HomeViewInterface> {
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(posts -> {
           getMvpView().hideLoading();
-          if (posts != null && posts.size() > 0) {
-            getMvpView().setData(posts);
-          }
+          Timber.d("getArticle() : data source %s", posts.getSource().name());
+          getMvpView().setData(posts.getData());
         }, throwable -> {
           getMvpView().hideLoading();
           getMvpView().showError();

@@ -93,4 +93,5 @@ dependencies {
 
   compile 'com.google.code.gson:gson:2.5'
   compile 'com.jakewharton:butterknife:7.0.1'
+  compile 'com.github.markomilos:paginate:0.5.1'
 }
