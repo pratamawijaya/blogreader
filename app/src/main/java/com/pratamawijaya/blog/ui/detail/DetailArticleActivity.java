@@ -2,8 +2,6 @@ package com.pratamawijaya.blog.ui.detail;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.pratamawijaya.blog.R;
@@ -11,10 +9,12 @@ import com.pratamawijaya.blog.base.BaseActivity;
 import com.pratamawijaya.blog.model.pojo.Post;
 import com.pratamawijaya.blog.presenter.detail.DetailPresenter;
 import javax.inject.Inject;
+import org.sufficientlysecure.htmltextview.DrawTableLinkSpan;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 public class DetailArticleActivity extends BaseActivity implements DetailArticleInterface {
 
-  @Bind(R.id.webview) WebView webView;
+  @Bind(R.id.html_textview) HtmlTextView text;
 
   @Inject DetailPresenter presenter;
   private Post post;
@@ -30,12 +30,17 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     getSupportActionBar().setTitle(post.title);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    webView.setWebChromeClient(new WebChromeClient());
+    text.setRemoveFromHtmlSpace(true);
+    //text.setClickableTableSpan(new ClickableTableSpanImpl());
+    DrawTableLinkSpan drawTableLinkSpan = new DrawTableLinkSpan();
+    drawTableLinkSpan.setTableLinkText("[tap for table]");
+    text.setDrawTableLinkSpan(drawTableLinkSpan);
+
     presenter.getArticleDetail(post.id, false);
   }
 
   @Override public void setData(Post post) {
-    webView.loadData(post.content, "text/html; charset=UTF-8", null);
+    text.setHtmlFromString(post.content,new HtmlTextView.RemoteImageGetter());
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
