@@ -23,15 +23,10 @@
 
   </android.support.design.widget.AppBarLayout>
 
-  <ScrollView
+  <WebView
+      android:id="@+id/webview"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      >
-    <org.sufficientlysecure.htmltextview.HtmlTextView
-        android:id="@+id/html_textview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-  </ScrollView>
+      />
 
 </LinearLayout>

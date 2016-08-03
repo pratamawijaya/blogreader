@@ -4,15 +4,13 @@ import com.pratamawijaya.blog.base.BasePresenter;
 import com.pratamawijaya.blog.data.DataManager;
 import com.pratamawijaya.blog.ui.detail.DetailArticleInterface;
 import javax.inject.Inject;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-import timber.log.Timber;
 
 /**
  * Created by pratama on 4/17/16.
  */
 public class DetailPresenter extends BasePresenter<DetailArticleInterface> {
+  private static final String TAG = "";
   private final DataManager dataManager;
   private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
@@ -32,17 +30,30 @@ public class DetailPresenter extends BasePresenter<DetailArticleInterface> {
   }
 
   public void getArticleDetail(final int id, final boolean isUpdate) {
-    checkViewAttached();
-    compositeSubscription.add(dataManager.getPost(id, isUpdate)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(post -> {
-          Timber.d("getArticleDetail() : data source %s", post.getSource().name());
-          if (post != null) {
-            getMvpView().setData(post.getData());
-          }
-        }, throwable -> {
-          Timber.e("getArticleDetail() :  %s", throwable.getLocalizedMessage());
-        }));
+    //checkViewAttached();
+    //
+    //dataManager.getPost(id, isUpdate)
+    //    .subscribeOn(Schedulers.io())
+    //    .observeOn(AndroidSchedulers.mainThread())
+    //    .subscribe(post -> {
+    //      if (post != null) {
+    //        // do something
+    //      }
+    //    }, throwable -> {
+    //      Log.e(TAG, "getArticleDetail: "+throwable.getLocalizedMessage() );
+    //    }, () -> {
+    //      Log.i(TAG, "getArticleDetail: completed");
+    //    });
+    //compositeSubscription.add(dataManager.getPost(id, isUpdate)
+    //    .subscribeOn(Schedulers.io())
+    //    .observeOn(AndroidSchedulers.mainThread())
+    //    .subscribe(post -> {
+    //      Timber.d("getArticleDetail() : data source %s", post.getSource().name());
+    //      if (post != null) {
+    //        getMvpView().setData(post.getData());
+    //      }
+    //    }, throwable -> {
+    //      Timber.e("getArticleDetail() :  %s", throwable.getLocalizedMessage());
+    //    }));
   }
 }

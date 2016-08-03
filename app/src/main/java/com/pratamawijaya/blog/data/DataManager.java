@@ -39,9 +39,11 @@ import rx.Observable;
         new EvictDynamicKey(isUpdate));
   }
 
-  public Observable<Reply<Post>> getPost(final int id, final boolean isUpdate) {
-    return cacheProviders.getPost(pratamaService.getPost(id)
-            .flatMap(singlePostResponse -> Observable.just(singlePostResponse.post)),
-        new DynamicKey(id), new EvictDynamicKey(isUpdate));
+  public Observable<Post> getPost(final int id, final boolean isUpdate) {
+    //return cacheProviders.getPost(pratamaService.getPost(id)
+    //        .flatMap(singlePostResponse -> Observable.just(singlePostResponse.post)),
+    //    new DynamicKey(id), new EvictDynamicKey(isUpdate));
+    return pratamaService.getPost(id)
+        .flatMap(singlePostResponse -> Observable.just(singlePostResponse.post));
   }
 }
