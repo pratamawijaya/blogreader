@@ -6,11 +6,12 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.1.2'
-    classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.4.4'
+    classpath 'com.android.tools.build:gradle:2.2.3'
+    classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.1'
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     classpath 'me.tatarka:gradle-retrolambda:3.2.5'
-    classpath "io.realm:realm-gradle-plugin:1.1.1"
+    classpath "io.realm:realm-gradle-plugin:2.1.1"
+    classpath 'com.google.gms:google-services:3.0.0'
     classpath "com.fernandocejas.frodo:frodo-plugin:0.8.2"
   }
 }

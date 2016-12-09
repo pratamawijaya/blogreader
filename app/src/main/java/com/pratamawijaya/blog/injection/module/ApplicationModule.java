@@ -67,8 +67,7 @@ import org.joda.time.DateTime;
 
   @Provides static Realm provideRealm(@ApplicationContext Context context) {
     RealmConfiguration configuration =
-        new RealmConfiguration.Builder(context).name("pratamablog.realm")
-            .schemaVersion(DATABASE_VERSION)
+        new RealmConfiguration.Builder().schemaVersion(DATABASE_VERSION)
             .migration(new Migration())
             .build();
     return Realm.getInstance(configuration);
@@ -76,8 +75,7 @@ import org.joda.time.DateTime;
 
   @Provides CacheProviders provideCacheProvider(@ApplicationContext Context context) {
     File cacheDir = context.getCacheDir();
-    return new RxCache.Builder()
-        .useExpiredDataIfLoaderNotAvailable(true)
+    return new RxCache.Builder().useExpiredDataIfLoaderNotAvailable(true)
         .persistence(cacheDir)
         .using(CacheProviders.class);
   }
