@@ -66,6 +66,7 @@ import org.joda.time.DateTime;
   }
 
   @Provides static Realm provideRealm(@ApplicationContext Context context) {
+    Realm.init(context);
     RealmConfiguration configuration =
         new RealmConfiguration.Builder().schemaVersion(DATABASE_VERSION)
             .migration(new Migration())
