@@ -2,12 +2,13 @@ ext {
   //Version
   supportLibrary = '25.0.1'
   playService = '10.0.0'
-  retrofit = '2.0.1'
+  retrofit = '2.1.0'
   realm = '0.87.1'
   jodatime = '2.9.1'
   timber = '4.1.2'
-  rxVersion = '1.1.0'
-  dagger = '2.0.2'
+  rxVersion = '1.1.6'
+  rxAndroid = '1.2.1'
+  dagger = '2.7'
 
   //Support Libraries dependencies
   supportDependencies = [design      : "com.android.support:design:${supportLibrary}",
@@ -26,7 +27,7 @@ ext {
                         compilerDagger  : "com.google.dagger:dagger-compiler:${dagger}",
                         annotationDagger: "org.glassfish:javax.annotation:10.0-b28"]
 
-  rxDependencies = [rxAndroid: "io.reactivex:rxandroid:${rxVersion}",
+  rxDependencies = [rxAndroid: "io.reactivex:rxandroid:${rxAndroid}",
                     rxJava   : "io.reactivex:rxjava:${rxVersion}",
                     rxLint   : "nl.littlerobots.rxlint:rxlint:1.0"]
 
