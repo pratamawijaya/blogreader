@@ -50,13 +50,4 @@ public class ListPresenterTest {
     Mockito.verify(getPosts).execute(any(Subscriber.class));
   }
 
-  @Test public void testShowResultInRecyclerView() throws Exception {
-    List<Post> result = Mockito.mock(List.class);
-    Mockito.when(postModelMapper.transform(postModels)).thenReturn(result);
-
-    presenter.getPosts(1, true);
-
-    Mockito.verify(postModelMapper).transform(postModels);
-    Mockito.verify(view).setData(result);
-  }
 }
