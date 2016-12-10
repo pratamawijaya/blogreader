@@ -1,7 +1,7 @@
 package com.pratamawijaya.blog.data.model;
 
+import java.util.Date;
 import java.util.List;
-import org.joda.time.DateTime;
 
 /**
  * Created by Pratama Nur Wijaya
@@ -17,8 +17,8 @@ public class PostModel {
   public String title;
   public String content;
   public String excerpt;
-  public DateTime date;
-  public DateTime modified;
+  public Date date;
+  public Date modified;
   public List<CategoryModel> categories;
   public AuthorModel author;
   public List<AttachmentModel> attachments;

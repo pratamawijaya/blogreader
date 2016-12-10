@@ -3,7 +3,8 @@ package com.pratamawijaya.blog.data.feature.post;
 import com.pratamawijaya.blog.data.model.mapper.PostModelMapper;
 import com.pratamawijaya.blog.domain.entity.Post;
 import com.pratamawijaya.blog.domain.repository.PostRepository;
-import io.rx_cache.EvictProvider;
+import io.rx_cache.DynamicKey;
+import io.rx_cache.EvictDynamicKey;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
@@ -30,6 +31,6 @@ public class PostRepositoryImpl implements PostRepository {
   @Override public Observable<List<Post>> getPosts(int page, boolean isUpdate) {
     return cacheProviders.getPosts(
         services.getRecentPost(page).flatMap(postResponse -> Observable.just(postResponse.posts)),
-        new EvictProvider(isUpdate)).map(this.mapper::transform);
+        new DynamicKey(page), new EvictDynamicKey(isUpdate)).map(this.mapper::transform);
   }
 }

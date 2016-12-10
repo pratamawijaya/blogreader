@@ -5,7 +5,6 @@ import android.content.Context;
 import com.pratamawijaya.blog.BuildConfig;
 import com.pratamawijaya.blog.app.config.Initializer;
 import javax.inject.Inject;
-import net.danlew.android.joda.JodaTimeAndroid;
 import timber.log.Timber;
 
 /**
@@ -25,7 +24,6 @@ public class PratamaBlogApplication extends Application {
 
   @Override public void onCreate() {
     super.onCreate();
-    JodaTimeAndroid.init(this);
     setupTimber();
 
     initializeDaggerComponent();

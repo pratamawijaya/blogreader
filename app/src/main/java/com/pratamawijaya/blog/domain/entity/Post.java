@@ -1,6 +1,6 @@
 package com.pratamawijaya.blog.domain.entity;
 
-import org.joda.time.DateTime;
+import java.util.Date;
 
 /**
  * Created by Pratama Nur Wijaya
@@ -16,8 +16,8 @@ public class Post {
   public String title;
   public String content;
   public String excerpt;
-  public DateTime date;
-  public DateTime modified;
+  public Date date;
+  public Date modified;
 
   public Post(int id) {
     this.id = id;
