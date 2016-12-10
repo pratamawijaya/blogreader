@@ -23,6 +23,9 @@ public class PostModelMapper {
       post = new Post(postModel.id);
       post.type = postModel.type;
       post.title = postModel.title;
+      post.content = postModel.content;
+      post.excerpt = postModel.excerpt;
+      post.date = postModel.date;
     }
     return post;
   }

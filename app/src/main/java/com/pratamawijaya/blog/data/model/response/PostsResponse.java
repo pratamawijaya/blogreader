@@ -1,6 +1,7 @@
 package com.pratamawijaya.blog.data.model.response;
 
 import com.pratamawijaya.blog.data.model.PostModel;
+import java.util.List;
 
 /**
  * Created by Pratama Nur Wijaya
@@ -8,6 +9,6 @@ import com.pratamawijaya.blog.data.model.PostModel;
  * Project Name : PratamaBlog
  */
 
-public class PostResponse {
-  public PostModel post;
+public class PostsResponse {
+  public List<PostModel> posts;
 }

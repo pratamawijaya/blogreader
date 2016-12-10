@@ -5,12 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.pratamawijaya.blog.R;
 import com.pratamawijaya.blog.domain.entity.Post;
+import com.pratamawijaya.blog.presentation.pojo.event.PostSelectEvent;
+import com.pratamawijaya.blog.utils.DateUtils;
 import java.util.List;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Pratama Nur Wijaya
@@ -42,7 +46,9 @@ public class ListArticleAdapter extends RecyclerView.Adapter<ListArticleAdapter.
 
   public class ListArticleHolder extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.post_title) TextView tvTitle;
+    @Bind(R.id.tvItemPostTitle) TextView tvTitle;
+    @Bind(R.id.tvItemPostDate) TextView tvDate;
+    @Bind(R.id.container) RelativeLayout container;
 
     public ListArticleHolder(View itemView) {
       super(itemView);
@@ -51,6 +57,8 @@ public class ListArticleAdapter extends RecyclerView.Adapter<ListArticleAdapter.
 
     public void bindItem(Post post) {
       tvTitle.setText(post.title);
+      tvDate.setText("Published : " + DateUtils.formatDate(post.date, DateUtils.FORMAT_DATE_1));
+      container.setOnClickListener(view -> EventBus.getDefault().post(new PostSelectEvent(post)));
     }
   }
 }

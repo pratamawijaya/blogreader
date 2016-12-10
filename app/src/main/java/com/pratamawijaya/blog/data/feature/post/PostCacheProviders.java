@@ -15,6 +15,9 @@ import rx.Observable;
  */
 
 public interface PostCacheProviders {
-  @LifeCache(duration = 1, timeUnit = TimeUnit.HOURS) Observable<List<PostModel>> getPosts(
+  @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS) Observable<List<PostModel>> getPosts(
       Observable<List<PostModel>> posts, DynamicKey page, EvictDynamicKey evictDynamicKey);
+
+  @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS) Observable<PostModel> getPost(
+      Observable<PostModel> post, DynamicKey postID, EvictDynamicKey evictDynamicKey);
 }

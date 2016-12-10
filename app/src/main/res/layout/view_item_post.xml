@@ -1,50 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:elevation="4dp"
     android:orientation="vertical"
+    android:padding="16dp"
     >
-  <RelativeLayout
+
+
+  <ImageView
+      android:id="@+id/icon_love"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:src="@drawable/ic_favorite_border_red_300_18dp"
+      />
+
+  <TextView
+      android:id="@+id/tvItemPostTitle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:padding="8dp"
-      >
+      android:layout_marginRight="10dp"
+      android:layout_toLeftOf="@id/icon_love"
+      android:fontFamily="sans-serif-medium"
+      android:maxLines="2"
+      android:text="@string/app_name"
+      android:textSize="22sp"
+      />
 
-    <ImageView
-        android:id="@+id/icon_love"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_favorite_border_red_300_18dp"
-        />
+  <TextView
+      android:id="@+id/tvItemPostDate"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/tvItemPostTitle"
+      android:layout_marginTop="10dp"
+      android:text="Published : 29 Okt 2016"
+      />
 
-    <TextView
-        android:id="@+id/post_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/icon_love"
-        android:fontFamily="sans-serif-medium"
-        android:maxLines="2"
-        android:textSize="18sp"
-        tools:text="afasf"
-        />
 
-    <TextView
-        android:id="@+id/post_content_excrept"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/post_title"
-        android:layout_marginTop="10dp"
-        android:ellipsize="end"
-        android:maxLines="3"
-        tools:text="lorem ipsum asdgasdg sdagadsg asd gasd gasd g sadg asdg asd gdsa gas dg sadg asd gas dg asdgasd g adsg sdfasdga sdg asdg asdg sdag dsa gsda g a sadfsdagsadgdsag "
-        />
-
-  </RelativeLayout>
-
-</android.support.v7.widget.CardView>
+</RelativeLayout>

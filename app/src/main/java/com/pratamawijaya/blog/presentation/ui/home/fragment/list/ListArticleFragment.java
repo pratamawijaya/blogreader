@@ -3,6 +3,7 @@ package com.pratamawijaya.blog.presentation.ui.home.fragment.list;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.pratamawijaya.blog.presentation.ui.home.di.DaggerHomeComponent;
 import com.pratamawijaya.blog.presentation.ui.home.di.HomeModule;
 import com.pratamawijaya.blog.presentation.ui.home.fragment.list.adapter.ListArticleAdapter;
 import com.pratamawijaya.blog.presentation.ui.home.presenter.ListPresenter;
+import com.pratamawijaya.blog.presentation.utils.SimpleDividerItemDecoration;
 import com.pratamawijaya.blog.utils.EndlessRecyclerOnScrollListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +83,8 @@ public class ListArticleFragment extends BaseFragment implements ListArcticleVie
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(linearLayoutManager);
     recyclerView.setAdapter(adapter);
+    recyclerView.addItemDecoration(new SimpleDividerItemDecoration(
+        ContextCompat.getDrawable(getActivity(), R.drawable.line_divider)));
 
     endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager) {
       @Override public void onLoadMore(int current_page) {

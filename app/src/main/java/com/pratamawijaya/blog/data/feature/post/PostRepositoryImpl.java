@@ -30,7 +30,13 @@ public class PostRepositoryImpl implements PostRepository {
 
   @Override public Observable<List<Post>> getPosts(int page, boolean isUpdate) {
     return cacheProviders.getPosts(
-        services.getRecentPost(page).flatMap(postResponse -> Observable.just(postResponse.posts)),
+        services.getRecentPosts(page).flatMap(postResponse -> Observable.just(postResponse.posts)),
         new DynamicKey(page), new EvictDynamicKey(isUpdate)).map(this.mapper::transform);
+  }
+
+  @Override public Observable<Post> getPost(int postId, boolean isUpdate) {
+    return cacheProviders.getPost(
+        services.getPost(postId).flatMap(postResponse -> Observable.just(postResponse.post)),
+        new DynamicKey(postId), new EvictDynamicKey(isUpdate)).map(this.mapper::transform);
   }
 }

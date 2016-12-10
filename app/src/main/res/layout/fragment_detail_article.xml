@@ -5,11 +5,10 @@
     tools:context="com.pratamawijaya.blog.presentation.ui.home.fragment.detail.DetailArticleFragment"
     >
 
-  <!-- TODO: Update blank fragment layout -->
-  <TextView
+  <WebView
+      android:id="@+id/webviewDetailArticle"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:text="@string/hello_blank_fragment"
       />
 
 </FrameLayout>
