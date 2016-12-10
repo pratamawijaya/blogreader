@@ -16,15 +16,15 @@ Its apps for my blog PratamaWijaya.com, its implement all libary usually i have 
 
 **Architecture**
 
-- MvP
+- Clean Architecture (https://github.com/android10/Android-CleanArchitecture)
 
 
 ## Todo
-
-- [ ] implement **Test** (you must learn Test TAMAAA)
 - [ ] implement Chrome Custom Tab
 - [ ] implement firebase
 - [ ] implement auth for fave using Google Sign in
+- [ ] implement searchview
+
 
 
 ### License
