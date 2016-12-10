@@ -1,0 +1,35 @@
+package com.pratamawijaya.blog.data.feature.post;
+
+import com.pratamawijaya.blog.data.model.mapper.PostModelMapper;
+import com.pratamawijaya.blog.domain.entity.Post;
+import com.pratamawijaya.blog.domain.repository.PostRepository;
+import io.rx_cache.EvictProvider;
+import java.util.List;
+import javax.inject.Inject;
+import rx.Observable;
+
+/**
+ * Created by Pratama Nur Wijaya
+ * Date : Dec - 12/10/16
+ * Project Name : PratamaBlog
+ */
+
+public class PostRepositoryImpl implements PostRepository {
+
+  private final PostServices services;
+  private final PostCacheProviders cacheProviders;
+  private final PostModelMapper mapper;
+
+  @Inject public PostRepositoryImpl(PostServices services, PostCacheProviders cacheProviders,
+      PostModelMapper mapper) {
+    this.services = services;
+    this.cacheProviders = cacheProviders;
+    this.mapper = mapper;
+  }
+
+  @Override public Observable<List<Post>> getPosts(int page, boolean isUpdate) {
+    return cacheProviders.getPosts(
+        services.getRecentPost(page).flatMap(postResponse -> Observable.just(postResponse.posts)),
+        new EvictProvider(isUpdate)).map(this.mapper::transform);
+  }
+}
