@@ -14,5 +14,5 @@ android:
     - extra-android-m2repository
 
 script:
-    - ./gradlew clean test assembleDevelopmentDebug
+    - ./gradlew clean test assembleDevelopmentDebug jacocoTestReport
 
