@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'realm-android'
 apply plugin: 'com.fernandocejas.frodo'
+apply plugin: 'jacoco-android'
 
 android {
   compileSdkVersion 25
-  buildToolsVersion "25.0.1"
+  buildToolsVersion "25.0.2"
   defaultConfig {
     applicationId "com.pratamawijaya.blog"
     minSdkVersion 15
@@ -76,6 +76,14 @@ dependencies {
   compile 'com.google.dagger:dagger:2.7'
   apt 'com.google.dagger:dagger-compiler:2.7'
 
+  compile 'com.google.code.gson:gson:2.5'
+  compile 'com.jakewharton:butterknife:7.0.1'
+  compile 'com.github.markomilos:paginate:0.5.1'
+  compile 'org.sufficientlysecure:html-textview:1.6'
+  compile 'com.squareup.picasso:picasso:2.3.2'
+  compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
+  compile 'com.android.support:support-v4:25.0.1'
+  compile 'org.greenrobot:eventbus:3.0.0'
 
   // time
   // logging
@@ -97,12 +105,4 @@ dependencies {
   androidTestCompile mockito
   testCompile jUnit
   testCompile mockito
-  compile 'com.google.code.gson:gson:2.5'
-  compile 'com.jakewharton:butterknife:7.0.1'
-  compile 'com.github.markomilos:paginate:0.5.1'
-  compile 'org.sufficientlysecure:html-textview:1.6'
-  compile 'com.squareup.picasso:picasso:2.3.2'
-  compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
-  compile 'com.android.support:support-v4:25.0.1'
-  compile 'org.greenrobot:eventbus:3.0.0'
 }
