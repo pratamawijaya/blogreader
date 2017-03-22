@@ -2,9 +2,9 @@ package com.pratamawijaya.blog.data.feature.post;
 
 import com.pratamawijaya.blog.data.model.response.PostResponse;
 import com.pratamawijaya.blog.data.model.response.PostsResponse;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Created by Pratama Nur Wijaya

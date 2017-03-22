@@ -4,7 +4,7 @@ package com.pratamawijaya.blog.domain.executor;
  * Created by pratama on 9/30/16.
  */
 
-import rx.Scheduler;
+import io.reactivex.Scheduler;
 
 /**
  * Thread abstraction created to change the execution context from any thread to any other thread.

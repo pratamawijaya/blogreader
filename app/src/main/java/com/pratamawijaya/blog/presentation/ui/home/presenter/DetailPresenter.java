@@ -2,10 +2,10 @@ package com.pratamawijaya.blog.presentation.ui.home.presenter;
 
 import android.support.annotation.VisibleForTesting;
 import com.pratamawijaya.blog.domain.entity.Post;
-import com.pratamawijaya.blog.domain.interactor.DefaultSubscriber;
 import com.pratamawijaya.blog.domain.interactor.post.GetBlogPost;
 import com.pratamawijaya.blog.presentation.base.BasePresenter;
 import com.pratamawijaya.blog.presentation.ui.home.fragment.detail.DetailArticleView;
+import io.reactivex.observers.DisposableObserver;
 import javax.inject.Inject;
 import timber.log.Timber;
 
@@ -31,32 +31,24 @@ public class DetailPresenter extends BasePresenter<DetailArticleView> {
 
   @Override public void detachView() {
     super.detachView();
-    getBlogPost.unsubscribe();
+    getBlogPost.dispose();
   }
 
   public void getDetailPost(int postId, boolean isUpdate) {
     getMvpView().showLoading();
-    getBlogPost.setPostID(postId);
-    getBlogPost.setUpdate(isUpdate);
-    getBlogPost.execute(new PostSubscriber());
-  }
+    getBlogPost.execute(new DisposableObserver<Post>() {
+      @Override public void onNext(Post value) {
+        getMvpView().hideLoading();
+        getMvpView().setData(post);
+      }
 
-  public final class PostSubscriber extends DefaultSubscriber<Post> {
-    @Override public void onNext(Post post) {
-      super.onNext(post);
-      getMvpView().hideLoading();
-      getMvpView().setData(post);
-    }
+      @Override public void onError(Throwable e) {
+        Timber.e("onError() :  %s", e.getLocalizedMessage());
+      }
 
-    @Override public void onError(Throwable e) {
-      super.onError(e);
-      getMvpView().hideLoading();
-      Timber.e("onError() :  %s", e.getLocalizedMessage());
-    }
+      @Override public void onComplete() {
 
-    @Override public void onCompleted() {
-      super.onCompleted();
-      getMvpView().hideLoading();
-    }
+      }
+    }, new GetBlogPost.Param(postId, isUpdate));
   }
 }

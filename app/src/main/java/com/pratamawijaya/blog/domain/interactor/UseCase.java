@@ -2,13 +2,12 @@ package com.pratamawijaya.blog.domain.interactor;
 
 import com.pratamawijaya.blog.domain.executor.PostExecutionThread;
 import com.pratamawijaya.blog.domain.executor.ThreadExecutor;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.Subscriptions;
+import dagger.internal.Preconditions;
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by pratama on 9/26/16.
@@ -19,60 +18,57 @@ import rx.subscriptions.Subscriptions;
  * This interface represents a execution unit for different use cases (this means any use case
  * in the application should implement this contract).
  *
- * By convention each UseCase implementation will return the result using a {@link Subscriber}
+ * By convention each UseCase implementation will return the result using a {@link
+ * DisposableObserver}
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
-public abstract class UseCase<T> {
+public abstract class UseCase<T, Params> {
 
   private final ThreadExecutor threadExecutor;
   private final PostExecutionThread postExecutionThread;
+  private final CompositeDisposable disposables;
 
-  private Subscription subscription = Subscriptions.empty();
-
-  protected UseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+  public UseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
     this.threadExecutor = threadExecutor;
     this.postExecutionThread = postExecutionThread;
-  }
-
-  /**
-   * Executes the current use case.
-   *
-   * @param useCaseSubscriber The guy who will be listen to the observable build
-   * with {@link #buildObservableUseCase()}
-   */
-  @SuppressWarnings("unchecked") public void execute(Subscriber useCaseSubscriber) {
-    this.subscription = this.buildObservableUseCase()
-        .subscribeOn(Schedulers.from(threadExecutor))
-        .observeOn(postExecutionThread.getScheduler())
-        .subscribe(useCaseSubscriber);
-  }
-
-  public void execute(Action1<T> onNext, Action1<Throwable> onError) {
-    this.subscription = this.buildObservableUseCase()
-        .subscribeOn(Schedulers.from(threadExecutor))
-        .observeOn(postExecutionThread.getScheduler())
-        .subscribe(onNext, onError);
-  }
-
-  public void execute(Action1<T> onNext, Action1<Throwable> onError, Action0 onComplete) {
-    this.subscription = this.buildObservableUseCase()
-        .subscribeOn(Schedulers.from(threadExecutor))
-        .observeOn(postExecutionThread.getScheduler())
-        .subscribe(onNext, onError, onComplete);
-  }
-
-  /**
-   * Unsubscribes from current {@link Subscription}.
-   */
-
-  public void unsubscribe() {
-    if (!subscription.isUnsubscribed()) {
-      subscription.unsubscribe();
-    }
+    this.disposables = new CompositeDisposable();
   }
 
   /**
    * Builds an {@link Observable} which will be used when executing the current {@link UseCase}.
    */
-  protected abstract Observable buildObservableUseCase();
+  public abstract Observable<T> buildUseCaseObservable(Params params);
+
+  /**
+   * Executes the current use case.
+   *
+   * @param observer {@link DisposableObserver} which will be listening to the observable build
+   * by {@link #buildUseCaseObservable(Params)} ()} method.
+   * @param params Parameters (Optional) used to build/execute this use case.
+   */
+  public void execute(DisposableObserver<T> observer, Params params) {
+    Preconditions.checkNotNull(observer);
+    final Observable<T> observable = this.buildUseCaseObservable(params)
+        .subscribeOn(Schedulers.from(threadExecutor))
+        .observeOn(postExecutionThread.getScheduler());
+    addDisposable(observable.subscribeWith(observer));
+  }
+
+  /**
+   * Dispose from current {@link CompositeDisposable}.
+   */
+  public void dispose() {
+    if (!disposables.isDisposed()) {
+      disposables.dispose();
+    }
+  }
+
+  /**
+   * Dispose from current {@link CompositeDisposable}.
+   */
+  private void addDisposable(Disposable disposable) {
+    Preconditions.checkNotNull(disposable);
+    Preconditions.checkNotNull(disposables);
+    disposables.add(disposable);
+  }
 }

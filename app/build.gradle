@@ -89,7 +89,8 @@ dependencies {
   // retrofit
   compile retrofitDependencies.retrofitBase
   compile retrofitDependencies.converter
-  compile retrofitDependencies.rxjavaAdapter
+  compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+
   compile retrofitDependencies.logging
 
   compile 'com.google.dagger:dagger:2.7'
@@ -113,8 +114,8 @@ dependencies {
   compile rxDependencies.rxJava
   compile rxDependencies.rxLint
 
-  compile 'com.github.VictorAlbertos.RxCache:runtime:1.6.8'
-  compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
+//  compile 'com.github.VictorAlbertos.RxCache:runtime:1.6.8'
+//  compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
 
 
   def jUnit = "junit:junit:4.12"

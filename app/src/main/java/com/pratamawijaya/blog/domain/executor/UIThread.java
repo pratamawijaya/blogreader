@@ -4,10 +4,10 @@ package com.pratamawijaya.blog.domain.executor;
  * Created by pratama on 9/30/16.
  */
 
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * MainThread (UI Thread) implementation based on a {@link Scheduler}

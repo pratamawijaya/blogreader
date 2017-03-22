@@ -1,5 +1,6 @@
 package com.pratamawijaya.blog.domain.executor;
 
+import com.pratamawijaya.blog.domain.interactor.UseCase;
 import java.util.concurrent.Executor;
 
 /**

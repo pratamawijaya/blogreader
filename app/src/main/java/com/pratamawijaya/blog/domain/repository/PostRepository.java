@@ -1,8 +1,8 @@
 package com.pratamawijaya.blog.domain.repository;
 
 import com.pratamawijaya.blog.domain.entity.Post;
+import io.reactivex.Observable;
 import java.util.List;
-import rx.Observable;
 
 /**
  * Created by Pratama Nur Wijaya

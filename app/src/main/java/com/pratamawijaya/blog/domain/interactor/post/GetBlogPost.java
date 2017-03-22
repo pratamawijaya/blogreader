@@ -1,11 +1,12 @@
 package com.pratamawijaya.blog.domain.interactor.post;
 
+import com.pratamawijaya.blog.domain.entity.Post;
 import com.pratamawijaya.blog.domain.executor.PostExecutionThread;
 import com.pratamawijaya.blog.domain.executor.ThreadExecutor;
 import com.pratamawijaya.blog.domain.interactor.UseCase;
 import com.pratamawijaya.blog.domain.repository.PostRepository;
+import io.reactivex.Observable;
 import javax.inject.Inject;
-import rx.Observable;
 
 /**
  * Created by Pratama Nur Wijaya
@@ -13,10 +14,8 @@ import rx.Observable;
  * Project Name : PratamaBlog
  */
 
-public class GetBlogPost extends UseCase {
+public class GetBlogPost extends UseCase<Post, GetBlogPost.Param> {
   private PostRepository repository;
-  private boolean isUpdate;
-  private int postID;
 
   @Inject public GetBlogPost(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread,
       PostRepository repository) {
@@ -24,15 +23,17 @@ public class GetBlogPost extends UseCase {
     this.repository = repository;
   }
 
-  public void setUpdate(boolean update) {
-    isUpdate = update;
+  @Override public Observable<Post> buildUseCaseObservable(Param param) {
+    return repository.getPost(param.postId, param.isUpdate);
   }
 
-  public void setPostID(int postID) {
-    this.postID = postID;
-  }
+  public static class Param {
+    public int postId;
+    public boolean isUpdate;
 
-  @Override protected Observable buildObservableUseCase() {
-    return repository.getPost(postID, isUpdate);
+    public Param(int postId, boolean isUpdate) {
+      this.postId = postId;
+      this.isUpdate = isUpdate;
+    }
   }
 }

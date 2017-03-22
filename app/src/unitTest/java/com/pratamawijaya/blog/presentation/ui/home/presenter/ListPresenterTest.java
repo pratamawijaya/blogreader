@@ -3,13 +3,13 @@ package com.pratamawijaya.blog.presentation.ui.home.presenter;
 import com.pratamawijaya.blog.domain.entity.Post;
 import com.pratamawijaya.blog.domain.interactor.post.GetBlogPosts;
 import com.pratamawijaya.blog.presentation.ui.home.fragment.list.ListArcticleView;
+import io.reactivex.observers.DisposableObserver;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import rx.functions.Action1;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
@@ -31,19 +31,19 @@ import static org.mockito.Mockito.when;
   @Before public void setUp() throws Exception {
     presenter = new ListPresenter(getBlogPosts);
     presenter.attachView(view);
-    presenter.posts = posts;
+    presenter.blogPosts = posts;
   }
 
   @Test public void testPresenterOnStop() throws Exception {
     presenter.detachView();
-    verify(getBlogPosts).unsubscribe();
+    verify(getBlogPosts).dispose();
   }
 
   @Test public void loadPost_shouldloaddata_when_empty() throws Exception {
     when(posts.isEmpty()).thenReturn(true);
     presenter.loadPosts(1, true);
     verify(view).showLoading();
-    verify(getBlogPosts).execute(any(Action1.class), any(Action1.class));
+    verify(getBlogPosts).execute(any(DisposableObserver.class), any(GetBlogPosts.Param.class));
   }
 
   @Test public void loadPost_displayarticle_whenpostnotempty() throws Exception {
@@ -54,6 +54,6 @@ import static org.mockito.Mockito.when;
 
   @Test public void doRefreshTest() throws Exception {
     presenter.doRefresh();
-    verify(getBlogPosts).execute(any(Action1.class), any(Action1.class));
+    verify(getBlogPosts).execute(any(DisposableObserver.class), any(GetBlogPosts.Param.class));
   }
 }

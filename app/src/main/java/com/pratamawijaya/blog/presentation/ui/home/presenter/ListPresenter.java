@@ -6,6 +6,7 @@ import com.pratamawijaya.blog.domain.interactor.post.GetBlogPosts;
 import com.pratamawijaya.blog.presentation.base.BasePresenter;
 import com.pratamawijaya.blog.presentation.ui.home.fragment.list.ListArcticleView;
 import com.pratamawijaya.blog.utils.Lists;
+import io.reactivex.observers.DisposableObserver;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -21,7 +22,7 @@ public class ListPresenter extends BasePresenter<ListArcticleView> {
 
   private final GetBlogPosts getBlogPosts;
 
-  @VisibleForTesting public List<Post> posts;
+  @VisibleForTesting public List<Post> blogPosts;
 
   @Inject public ListPresenter(GetBlogPosts getBlogPosts) {
     this.getBlogPosts = getBlogPosts;
@@ -29,42 +30,59 @@ public class ListPresenter extends BasePresenter<ListArcticleView> {
 
   @Override public void attachView(ListArcticleView mvpView) {
     super.attachView(mvpView);
-    posts = new ArrayList<>();
+    blogPosts = new ArrayList<>();
   }
 
   @Override public void detachView() {
     super.detachView();
-    getBlogPosts.unsubscribe();
+    getBlogPosts.dispose();
   }
 
   public void loadPosts(int page, boolean isUpdate) {
-    if (Lists.isEmptyOrNull(posts)) {
+    if (Lists.isEmptyOrNull(blogPosts)) {
       getMvpView().showLoading();
-      getBlogPosts.setPage(page);
-      getBlogPosts.setUpdate(isUpdate);
-      getBlogPosts.execute(posts -> {
-        if (posts != null && posts.size() > 0) {
-          this.posts = posts;
-          getMvpView().displayArticle(posts);
-        } else {
-          getMvpView().displayNoArticle();
+
+      getBlogPosts.execute(new DisposableObserver<List<Post>>() {
+        @Override public void onNext(List<Post> posts) {
+          getMvpView().hideLoading();
+          if (posts != null && posts.size() > 0) {
+            getMvpView().displayArticle(posts);
+          } else {
+            getMvpView().displayNoArticle();
+          }
         }
-      }, throwable -> {
-        Timber.e("loadPosts() :  %s", throwable.getLocalizedMessage());
-      });
+
+        @Override public void onError(Throwable e) {
+          Timber.e("onError() :  %s", e.getLocalizedMessage());
+        }
+
+        @Override public void onComplete() {
+          getMvpView().hideLoading();
+        }
+      }, new GetBlogPosts.Param(page, isUpdate));
     } else {
-      getMvpView().displayArticle(posts);
+      getMvpView().displayArticle(blogPosts);
     }
   }
 
   public void doRefresh() {
-    getMvpView().showLoading();
-    getBlogPosts.setPage(1);
-    getBlogPosts.setUpdate(true);
-    getBlogPosts.execute(posts1 -> {
-      getMvpView().displayArticle(posts1);
-    }, throwable -> {
-      Timber.e("doRefresh() :  %s", throwable.getLocalizedMessage());
-    });
+    getBlogPosts.execute(new DisposableObserver<List<Post>>() {
+      @Override public void onNext(List<Post> posts) {
+        getMvpView().hideLoading();
+        if (posts != null && posts.size() > 0) {
+          getMvpView().displayArticle(posts);
+        } else {
+          getMvpView().displayNoArticle();
+        }
+      }
+
+      @Override public void onError(Throwable e) {
+        Timber.e("onError() :  %s", e.getLocalizedMessage());
+      }
+
+      @Override public void onComplete() {
+        getMvpView().hideLoading();
+      }
+    }, new GetBlogPosts.Param(1, true));
   }
 }

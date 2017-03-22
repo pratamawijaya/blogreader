@@ -5,9 +5,9 @@ import com.pratamawijaya.blog.domain.executor.PostExecutionThread;
 import com.pratamawijaya.blog.domain.executor.ThreadExecutor;
 import com.pratamawijaya.blog.domain.interactor.UseCase;
 import com.pratamawijaya.blog.domain.repository.PostRepository;
+import io.reactivex.Observable;
 import java.util.List;
 import javax.inject.Inject;
-import rx.Observable;
 
 /**
  * Created by Pratama Nur Wijaya
@@ -15,11 +15,9 @@ import rx.Observable;
  * Project Name : PratamaBlog
  */
 
-public class GetBlogPosts extends UseCase<List<Post>> {
+public class GetBlogPosts extends UseCase<List<Post>, GetBlogPosts.Param> {
 
   private PostRepository repository;
-  private boolean isUpdate;
-  private int page;
 
   @Inject
   public GetBlogPosts(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread,
@@ -28,15 +26,17 @@ public class GetBlogPosts extends UseCase<List<Post>> {
     this.repository = repository;
   }
 
-  public void setUpdate(boolean update) {
-    isUpdate = update;
+  @Override public Observable<List<Post>> buildUseCaseObservable(Param param) {
+    return repository.getPosts(param.page, param.isUpdate);
   }
 
-  public void setPage(int page) {
-    this.page = page;
-  }
+  public static class Param {
+    public int page;
+    public boolean isUpdate;
 
-  @Override protected Observable buildObservableUseCase() {
-    return repository.getPosts(page, isUpdate);
+    public Param(int page, boolean isUpdate) {
+      this.page = page;
+      this.isUpdate = isUpdate;
+    }
   }
 }
