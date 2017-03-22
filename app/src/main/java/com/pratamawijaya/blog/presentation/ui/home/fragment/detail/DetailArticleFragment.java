@@ -69,7 +69,6 @@ public class DetailArticleFragment extends BaseFragment implements DetailArticle
     ButterKnife.bind(this, view);
 
     presenter.attachView(this);
-
     if (post != null) {
       presenter.getDetailPost(post.id, false);
     }

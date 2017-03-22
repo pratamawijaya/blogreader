@@ -5,6 +5,8 @@ import com.pratamawijaya.blog.domain.executor.ThreadExecutor;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
 
@@ -20,7 +22,7 @@ import rx.subscriptions.Subscriptions;
  * By convention each UseCase implementation will return the result using a {@link Subscriber}
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
-public abstract class UseCase {
+public abstract class UseCase<T> {
 
   private final ThreadExecutor threadExecutor;
   private final PostExecutionThread postExecutionThread;
@@ -45,9 +47,24 @@ public abstract class UseCase {
         .subscribe(useCaseSubscriber);
   }
 
+  public void execute(Action1<T> onNext, Action1<Throwable> onError) {
+    this.subscription = this.buildObservableUseCase()
+        .subscribeOn(Schedulers.from(threadExecutor))
+        .observeOn(postExecutionThread.getScheduler())
+        .subscribe(onNext, onError);
+  }
+
+  public void execute(Action1<T> onNext, Action1<Throwable> onError, Action0 onComplete) {
+    this.subscription = this.buildObservableUseCase()
+        .subscribeOn(Schedulers.from(threadExecutor))
+        .observeOn(postExecutionThread.getScheduler())
+        .subscribe(onNext, onError, onComplete);
+  }
+
   /**
    * Unsubscribes from current {@link Subscription}.
    */
+
   public void unsubscribe() {
     if (!subscription.isUnsubscribed()) {
       subscription.unsubscribe();

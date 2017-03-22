@@ -11,5 +11,7 @@ import java.util.List;
  */
 
 public interface ListArcticleView extends BaseMvpView {
-  void setData(List<Post> posts);
+  void displayArticle(List<Post> posts);
+
+  void displayNoArticle();
 }

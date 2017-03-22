@@ -1,8 +1,8 @@
 ext {
   //Version
-  supportLibrary = '25.0.1'
-  playService = '10.0.0'
-  retrofit = '2.1.0'
+  supportLibrary = '25.2.0'
+  playService = '10.2.0'
+  retrofit = '2.2.0'
   realm = '0.87.1'
   jodatime = '2.9.1'
   timber = '4.1.2'

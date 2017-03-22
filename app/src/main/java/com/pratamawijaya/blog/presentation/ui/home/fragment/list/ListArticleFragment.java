@@ -32,7 +32,8 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListArticleFragment extends BaseFragment implements ListArcticleView {
+public class ListArticleFragment extends BaseFragment implements ListArcticleView,
+    SwipeRefreshLayout.OnRefreshListener {
 
   @Bind(R.id.contentView) SwipeRefreshLayout contentView;
   @Bind(R.id.errorView) TextView errorView;
@@ -74,7 +75,7 @@ public class ListArticleFragment extends BaseFragment implements ListArcticleVie
 
     setupRecyclerView();
 
-    presenter.getPosts(1, false);
+    presenter.loadPosts(1, false);
   }
 
   private void setupRecyclerView() {
@@ -88,11 +89,12 @@ public class ListArticleFragment extends BaseFragment implements ListArcticleVie
 
     endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager) {
       @Override public void onLoadMore(int current_page) {
-        presenter.getPosts(current_page, false);
+        presenter.loadPosts(current_page, false);
       }
     };
 
     recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
+    contentView.setOnRefreshListener(this);
   }
 
   @Override public void showLoading() {
@@ -115,8 +117,16 @@ public class ListArticleFragment extends BaseFragment implements ListArcticleVie
         .inject(this);
   }
 
-  @Override public void setData(List<Post> posts) {
+  @Override public void displayArticle(List<Post> posts) {
     this.posts.addAll(posts);
     adapter.notifyDataSetChanged();
+  }
+
+  @Override public void displayNoArticle() {
+
+  }
+
+  @Override public void onRefresh() {
+    presenter.doRefresh();
   }
 }

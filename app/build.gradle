@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.getkeepsafe.dexcount'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.fernandocejas.frodo'
 apply plugin: 'jacoco-android'
@@ -19,6 +18,26 @@ android {
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  sourceSets {
+    def UNIT_TESTS_LOCATION = 'src/unitTest/java'
+    def INTEGRATION_TESTS_LOCATION = 'src/integrationTest/java'
+    def INTEGRATION_TESTS_RESOURCES = 'src/integrationTest/resources'
+    def HELPERS_SHARED_ACROSS_ALL_TESTS = 'src/testHelpers/java'
+    def RESOURCES_SHARED_ACROSS_ALL_TESTS = 'src/testHelpers/resources'
+    def ESPRESSO_TESTS_LOCATION = 'src/espressoTests/java'
+    def ESPRESSO_INTEGRATION_TESTS_LOCATION = 'src/espressoIntegrationTests/java'
+
+    // Test related source sets
+    test.java.srcDirs +=
+        [UNIT_TESTS_LOCATION, INTEGRATION_TESTS_LOCATION, HELPERS_SHARED_ACROSS_ALL_TESTS]
+    test.resources.srcDirs += [RESOURCES_SHARED_ACROSS_ALL_TESTS, INTEGRATION_TESTS_RESOURCES]
+    // Espresso test related source sets
+    androidTest.java.srcDirs +=
+        [ESPRESSO_TESTS_LOCATION, ESPRESSO_INTEGRATION_TESTS_LOCATION, HELPERS_SHARED_ACROSS_ALL_TESTS]
+    androidTest.resources.srcDirs +=
+        [RESOURCES_SHARED_ACROSS_ALL_TESTS, INTEGRATION_TESTS_RESOURCES]
   }
 
   packagingOptions {
@@ -74,7 +93,7 @@ dependencies {
   compile retrofitDependencies.logging
 
   compile 'com.google.dagger:dagger:2.7'
-  apt 'com.google.dagger:dagger-compiler:2.7'
+  annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
 
   compile 'com.google.code.gson:gson:2.5'
   compile 'com.jakewharton:butterknife:7.0.1'
@@ -101,8 +120,12 @@ dependencies {
   def jUnit = "junit:junit:4.12"
   def mockito = "org.mockito:mockito-core:1.10.19"
 
-  androidTestCompile jUnit
-  androidTestCompile mockito
-  testCompile jUnit
-  testCompile mockito
+  testCompile 'junit:junit:4.12'
+  testCompile 'com.squareup.okhttp3:mockwebserver:3.6.0'
+  testCompile 'com.squareup.retrofit2:retrofit-mock:2.2.0'
+  testCompile 'commons-io:commons-io:2.5'
+  testCompile 'org.mockito:mockito-core:1.9.5'
+  testCompile 'com.github.fabioCollini:DaggerMock:0.6.4'
+  testCompile 'org.robolectric:robolectric:3.0'
+  testCompile 'org.assertj:assertj-core:1.7.1'
 }

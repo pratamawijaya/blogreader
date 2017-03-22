@@ -1,9 +1,11 @@
 package com.pratamawijaya.blog.domain.interactor.post;
 
+import com.pratamawijaya.blog.domain.entity.Post;
 import com.pratamawijaya.blog.domain.executor.PostExecutionThread;
 import com.pratamawijaya.blog.domain.executor.ThreadExecutor;
 import com.pratamawijaya.blog.domain.interactor.UseCase;
 import com.pratamawijaya.blog.domain.repository.PostRepository;
+import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
 
@@ -13,7 +15,7 @@ import rx.Observable;
  * Project Name : PratamaBlog
  */
 
-public class GetBlogPosts extends UseCase {
+public class GetBlogPosts extends UseCase<List<Post>> {
 
   private PostRepository repository;
   private boolean isUpdate;

@@ -1,5 +1,6 @@
 package com.pratamawijaya.blog.presentation.ui.home.presenter;
 
+import android.support.annotation.VisibleForTesting;
 import com.pratamawijaya.blog.domain.entity.Post;
 import com.pratamawijaya.blog.domain.interactor.DefaultSubscriber;
 import com.pratamawijaya.blog.domain.interactor.post.GetBlogPost;
@@ -17,6 +18,8 @@ import timber.log.Timber;
 public class DetailPresenter extends BasePresenter<DetailArticleView> {
 
   private final GetBlogPost getBlogPost;
+
+  @VisibleForTesting public Post post;
 
   @Inject public DetailPresenter(GetBlogPost getBlogPost) {
     this.getBlogPost = getBlogPost;
